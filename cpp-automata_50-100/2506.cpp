@@ -3,8 +3,11 @@
 using namespace std;
 
 int main(void){
+    int num;
+
+    cin >> num;
     vector<int> v;
-    for (int i = 1; i <= 10; i++){
+    for (int i = 1; i <= num; i++){
         int score;
 
         cin >> score;
@@ -12,23 +15,25 @@ int main(void){
     }
 
     int score = 0;
-    int bonus = 0;
-    for (int i = 0; i < 10; i++){
-        if (i > 0) {
-            if (v[i] == 1) {
-                if (v[i - 1] == 1) {
-                    bonus++;
-                    score += bonus;
-                }
-                else {
-                    score++;
-                    bonus = 0;
-                }
+    int bonus = 1;
+
+    if (v[0] == 1){
+        score++;
+    }
+    for (int i = 1; i < num; i++){
+        if (v[i] == 1){
+            if (v[i - 1] == 1) {
+                bonus++;
+                score += bonus;
+            }
+            else {
+                score++;
+                bonus = 1;
             }
         }
-
-        else {
-            if (v[i] == 1) score++;
-        }
     }
+
+    cout << score << endl;
+
+    return 0;
 }
