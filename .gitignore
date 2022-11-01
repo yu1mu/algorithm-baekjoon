@@ -3,5 +3,6 @@
 !*/
 
 *.dSYM
+*.exe
 
 .vscode/
