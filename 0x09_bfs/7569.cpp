@@ -2,27 +2,25 @@
 #include <queue>
 #include <tuple>
 #include <utility>
+#include <algorithm>
 using namespace std;
 
-int main(void){
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+int board[103][103][103];
+int dist[103][103][103];
 
+tuple<int, int, int> dir[6] = {
+    tuple<int, int, int>(-1, 0, 0),
+    tuple<int, int, int>(1, 0, 0),
+    tuple<int, int, int>(0, -1, 0),
+    tuple<int, int, int>(0, 1, 0),
+    tuple<int, int, int>(0, 0, -1),
+    tuple<int, int, int>(0, 0, 1)
+};
+
+int main(void){
     int m, n, h;
 
     cin >> m >> n >> h;
-
-    int board[102][102][102] = {};
-    int dist[102][102][102] = {};
-
-    tuple<int, int, int> dir[6] = {
-        tuple<int, int, int>(-1, 0, 0),
-        tuple<int, int, int>(1, 0, 0),
-        tuple<int, int, int>(0, -1, 0),
-        tuple<int, int, int>(0, 1, 0),
-        tuple<int, int, int>(0, 0, -1),
-        tuple<int, int, int>(0, 0, 1)
-    };
 
     queue<tuple<int, int, int> > q;
 
@@ -48,28 +46,26 @@ int main(void){
             int adjY = get<1>(cur) + get<1>(dir[i]);
             int adjZ = get<2>(cur) + get<2>(dir[i]);
 
-            if (adjX < 0 || adjX >= m || adjY < 0 || adjY >= m || adjZ < 0 || adjZ >= h) continue;
+            if (adjX < 0 || adjX >= n || adjY < 0 || adjY >= m || adjZ < 0 || adjZ >= h) continue;
             if(dist[adjX][adjY][adjZ] >= 0) continue;
 
             dist[adjX][adjY][adjZ] = dist[get<0>(cur)][get<1>(cur)][get<2>(cur)] + 1;
             q.push(tuple<int, int, int>(adjX, adjY, adjZ));
         }
     }
-    
-    int res = 0;
-
-    for(int i = 0; i < h; i++){
-        for(int j = 0; j < n; j++){
-            for(int k = 0; k < m; k++){
-                if(dist[j][k][i] == -1){
-                    cout << -1 << "\n";
-                    return 0;
-                }
-
-                res = max(dist[j][k][i], res);
-            }
+   
+    int ans = 0;
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < n; j++) {
+      for (int k = 0; k < m; k++) {
+        if (dist[j][k][i] == -1) {
+          cout << -1 << "\n";
+          return 0;
         }
+        ans = max(ans, dist[j][k][i]);
+      }
     }
-
-    cout << res << "\n";
+  }
+  cout << ans << "\n";
+  return 0;
 }
